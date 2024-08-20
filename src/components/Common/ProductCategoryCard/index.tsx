@@ -10,7 +10,11 @@ const ProductCategoryCard = ({ category }: { category: any }) => {
         navigate(`../categories/${category.docId}`);
       }}
     >
-      <img src={category?.image} className="w-full h-[80px] rounded-md" />
+      <img
+        src={category?.image}
+        alt="This a sacco category"
+        className="w-full h-[80px] rounded-md"
+      />
       <h3 className="font-semibold group-hover:text-primary">
         {category?.name}
       </h3>
