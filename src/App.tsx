@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Membership from "./pages/Membership";
 import Deduction from "./pages/Deduction";
 import "./App.css";
+import VerifyPhone from "./components/Forms/VerifyForm";
 
 function App() {
   return (
@@ -17,10 +18,12 @@ function App() {
         <Route path="login" element={<LoginForm />} />
         <Route path="register" element={<RegisterForm />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="verify-phone" element={<VerifyPhone />} />
       </Route>
       <Route path="/dashboard/*" element={<Dashboard />}>
         <Route index element={<Navigate to="membership" replace />} />
-        <Route path="deduction" element={<Deduction />} />
+        <Route path="subscription-deduction" element={<Deduction />} />
+        <Route path="saving-deduction" element={<Deduction />} />
         <Route path="membership" element={<Membership />} />
       </Route>
     </Routes>

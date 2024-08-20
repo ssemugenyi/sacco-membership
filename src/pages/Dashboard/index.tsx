@@ -7,33 +7,38 @@ const Dashboard = () => {
   const handleLogout = () => {
     navigate("/login");
   };
+  const NAV_LINKS = [
+    {
+      title: "MemberShip",
+      to: "membership",
+    },
+    {
+      title: "Subscription Deduction",
+      to: "subscription-deduction",
+    },
+    {
+      title: "Saving Deduction",
+      to: "saving-deduction",
+    },
+  ];
   return (
     <div className="flex ">
       <div className="w-[150px] bg-primary h-screen pt-16 p-4 fixed left-0 z-10">
         <nav>
           <ul>
-            <li className="mb-4">
-              <NavLink
-                to="membership"
-                className={({ isActive }) =>
-                  " w-full rounded-3xl px-6 py-2 my-1 font-poppins font-semibold flex justify-between items-center hover:bg-white hover:text-primary transition-all duration-300 text-sm no-underline capitalize  " +
-                  (isActive ? "bg-white text-primary" : "text-white ")
-                }
-              >
-                MemberShip
-              </NavLink>
-            </li>
-            <li className="mb-4">
-              <NavLink
-                to="deduction"
-                className={({ isActive }) =>
-                  " w-full rounded-3xl px-6 py-2 my-1 font-poppins font-semibold flex justify-between items-center hover:bg-white hover:text-primary transition-all duration-300 text-sm no-underline capitalize  " +
-                  (isActive ? "bg-white text-primary" : "text-white ")
-                }
-              >
-                Deduction
-              </NavLink>
-            </li>
+            {NAV_LINKS.map((link) => (
+              <li className="mb-4">
+                <NavLink
+                  to={link.to}
+                  className={({ isActive }) =>
+                    " w-full rounded-3xl px-6 py-2 my-1 font-poppins font-semibold flex justify-between items-center hover:bg-white hover:text-primary transition-all duration-300 text-sm no-underline capitalize  " +
+                    (isActive ? "bg-white text-primary" : "text-white ")
+                  }
+                >
+                  {link.title}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>

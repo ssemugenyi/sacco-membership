@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { Form, GGButton } from "../UI";
 import { Input } from "../Common";
 import { registerSchema } from "./schemas";
+import { auth } from "../../store/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -18,6 +20,12 @@ const RegisterForm = () => {
 
   const handleRegister = async (values: any) => {
     try {
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      console.log(res);
       // await newUser({
       //   firstName: values.fname,
       //   lastName: values.lname,

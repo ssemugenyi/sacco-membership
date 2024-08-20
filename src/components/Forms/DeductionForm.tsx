@@ -1,20 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../Common";
 import { GGButton } from "../UI";
 import { Formik } from "formik";
+import { db } from "../../store/firebase";
+import { onValue, ref, set } from "firebase/database";
 
 const DeductionForm = () => {
+  const [formData, setFormData] = useState<any>({});
+
+  const handleSubmitHandler = async (values: any) => {
+    set(ref(db, "deductions/"), {
+      cellPhone: values.cellPhone,
+      employerName: values.employerName,
+      membershipNumber: values.membershipNumber,
+      employeeSignature: values.employeeSignature,
+      administratorSignature: values.administratorSignature,
+      hrSignature: values.hrSignature,
+      dob: values.dob,
+    });
+  };
+  useEffect(() => {
+    const starCountRef = ref(db, "deductions/");
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      setFormData(data);
+    });
+  }, []);
+
+  const isFilled = Object.keys(formData).length > 0;
+
   return (
     <div>
       {" "}
       <Formik
         enableReinitialize
         initialValues={{
-          email: "",
+          cellPhone: formData?.cellPhone || "",
+          employerName: formData?.employerName || "",
+          membershipNumber: formData?.membershipNumber || "",
+          employeeSignature: formData?.employeeSignature || "",
+          administratorSignature: formData?.employeeSignature || "",
+          hrSignature: formData?.employeeSignature || "",
+          dob: "",
         }}
         // validationSchema={forgotPasswordSchema}
         onSubmit={async (values) => {
-          //   await handleSubmitHandler(values);
+          await handleSubmitHandler(values);
         }}
       >
         {({ handleSubmit, dirty, isValid }) => (
@@ -49,7 +80,7 @@ const DeductionForm = () => {
             <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
               <Input
                 type="text"
-                name="employeeSignature"
+                name="administratorSignature"
                 label="Approved by SACCO Administrator"
               />
               <Input type="date" name="dob" label="Date" />
@@ -58,7 +89,7 @@ const DeductionForm = () => {
             <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 mb-3">
               <Input
                 type="text"
-                name="employeeSignature"
+                name="hrSignature"
                 label="Authorized by HR Manage"
               />
               <Input type="date" name="dob" label="Date" />
@@ -67,7 +98,7 @@ const DeductionForm = () => {
             <GGButton
               type="submit"
               onClick={handleSubmit}
-              disable={!dirty || !isValid}
+              disable={!dirty || !isValid || isFilled}
               width="100%"
             >
               Submit

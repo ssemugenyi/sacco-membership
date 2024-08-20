@@ -9,6 +9,8 @@ import { Formik } from "formik";
 import { Input } from "../Common";
 import { Form, GGButton } from "../UI";
 import { loginSchema } from "./schemas";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../store/firebase";
 
 const LoginForm = () => {
   // const [loginUser, { isLoading }] = useLoginUserMutation();
@@ -18,6 +20,12 @@ const LoginForm = () => {
 
   const handleLogin = async (values: any) => {
     try {
+      const res = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      console.log(res);
       // const userCredential = await loginUser({
       //   email: values.email,
       //   password: values.password,
@@ -34,7 +42,7 @@ const LoginForm = () => {
       //     user: userCredential?.user,
       //   }),
       // );
-      navigate("../dashboard");
+      navigate("../verify-phone");
     } catch (error: any) {
       // if (error?.data?.status === "fail") {
       //   toast.error(

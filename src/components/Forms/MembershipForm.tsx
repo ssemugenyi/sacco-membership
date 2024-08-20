@@ -1,21 +1,106 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GGButton } from "../UI";
-import { Input } from "../Common";
+import { GGTable, Input } from "../Common";
 
 import { Formik } from "formik";
+import { onValue, push, ref } from "firebase/database";
+import { db } from "../../store/firebase";
 
 const MembershipForm = () => {
+  const [formData, setFormData] = useState<any>({});
+  const handleSubmitHandler = async (values: any) => {
+    push(ref(db, "membership/"), {
+      surname: values.surname,
+      otherNames: values.otherNames,
+      dob: values.dob,
+      profession: values.profession,
+      residential: values.residential,
+      postalAddress: values.postalAddress,
+      email: values.email,
+      employer: values.employer,
+      phone1: values.phone1,
+      phone2: values.phone2,
+    });
+  };
+
+  useEffect(() => {
+    const starCountRef = ref(db, "membership/");
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      setFormData(data);
+    });
+  }, []);
+
+  console.log("Test", formData);
+
   return (
     <div>
-      {" "}
+      <div>
+        <GGTable
+          showExportButton
+          onEditHandler={() => {}}
+          data={([...Object.values(formData)] as any) || []}
+          columns={[
+            {
+              Header: "Surname",
+              accessor: "surname",
+            },
+            {
+              Header: "Other Names",
+              accessor: "otherNames",
+            },
+            {
+              Header: "DOB",
+              accessor: "dob",
+            },
+            {
+              Header: "Profession",
+              accessor: "profession",
+            },
+            {
+              Header: "Residential",
+              accessor: "residential",
+            },
+            {
+              Header: "Postal Address",
+              accessor: "postalAddress",
+            },
+            {
+              Header: "Email",
+              accessor: "email",
+            },
+            {
+              Header: "Employer",
+              accessor: "employer",
+            },
+            {
+              Header: "Phone 1",
+              accessor: "phone1",
+            },
+            {
+              Header: "Phone 2",
+              accessor: "phone2",
+            },
+          ]}
+        />
+      </div>
       <Formik
         enableReinitialize
         initialValues={{
-          email: "",
+          surname: formData?.surname || "",
+          otherNames: formData?.otherNames || "",
+          dob: formData?.dob || "",
+          profession: formData?.profession || "",
+          residential: formData?.residential || "",
+          postalAddress: formData?.postalAddress || "",
+          email: formData?.email || "",
+          employer: formData?.employer || "",
+          phone1: formData?.phone1 || "",
+          phone2: formData?.phone2 || "",
         }}
         // validationSchema={forgotPasswordSchema}
         onSubmit={async (values) => {
-          //   await handleSubmitHandler(values);
+          await handleSubmitHandler(values);
         }}
       >
         {({ handleSubmit, dirty, isValid }) => (
@@ -85,6 +170,7 @@ const MembershipForm = () => {
               type="submit"
               onClick={handleSubmit}
               disable={!dirty || !isValid}
+              width="100%"
             >
               Submit
             </GGButton>

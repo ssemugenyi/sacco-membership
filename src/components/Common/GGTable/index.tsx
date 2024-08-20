@@ -28,6 +28,7 @@ import { MdOutlineRefresh } from "react-icons/md";
 
 interface COLUMNTYPE {
   Header: string;
+  accessor: string;
 }
 interface PRODUCTTYPE {
   id: string;
