@@ -12,6 +12,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Authentication />}>
+        <Route index element={<Navigate to="login" replace />} />
         <Route path="login" element={<LoginForm />} />
         <Route path="register" element={<RegisterForm />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
