@@ -55,7 +55,7 @@ const DeductionForm = () => {
               <Input type="date" name="dob" label="Date" />
             </div>
 
-            <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
+            <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 mb-3">
               <Input
                 type="text"
                 name="employeeSignature"
@@ -68,6 +68,7 @@ const DeductionForm = () => {
               type="submit"
               onClick={handleSubmit}
               disable={!dirty || !isValid}
+              width="100%"
             >
               Submit
             </GGButton>

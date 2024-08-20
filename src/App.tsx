@@ -7,6 +7,7 @@ import ForgotPassword from "./components/Forms/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
 import Membership from "./pages/Membership";
 import Deduction from "./pages/Deduction";
+import "./App.css";
 
 function App() {
   return (
