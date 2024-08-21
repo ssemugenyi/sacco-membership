@@ -116,16 +116,31 @@ const MembershipForm = () => {
               <h2 className="font-bold uppercase text-md my-3">
                 212 STAFF SACCO MEMBERSHIP REGISTRATION FORM
               </h2>
-              <Input type="text" name="surname" label="Surname" />
-              <Input type="text" name="otherNames" label="Other Names" />
-              <Input type="date" name="dob" label="Date Of Birth" />
-              <Input type="text" name="profession" label="Occupation" />
-              <Input type="text" name="residential" label="Residential" />
-              <Input type="text" name="postalAddress" label="Postal Address" />
-              <Input type="email" name="email" label="Email" />
-              <Input type="text" name="employer" label="EMployer" />
-              <Input type="text" name="phone1" label="Mobile" />
-              <Input type="text" name="phone2" label="Fixed" />
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input type="text" name="surname" label="Surname" />
+                <Input type="text" name="otherNames" label="Other Names" />
+                <Input type="date" name="dob" label="Date Of Birth" />
+                <Input type="text" name="profession" label="Occupation" />
+                <Input type="text" name="residential" label="Residential" />
+                <Input
+                  type="text"
+                  name="postalAddress"
+                  label="Postal Address"
+                />
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input
+                  type="text"
+                  name="postalAddress"
+                  label="Postal Address"
+                />
+                <Input type="email" name="email" label="Email" />
+                <Input type="text" name="employer" label="Employer" />
+                <Input type="text" name="phone1" label="Mobile" />
+                <Input type="text" name="phone2" label="Fixed" />
+              </div>
+
               <h2 className="font-bold uppercase text-md my-3">
                 Savings beneficiaries declaration
               </h2>
@@ -139,29 +154,46 @@ const MembershipForm = () => {
                 instead a trustee should be considered:
               </p>
 
-              <Input type="text" name="surname" label="Surname" />
-              <Input type="text" name="dob" label="Date Of Birth" />
-              <Input type="text" name="profession" label="Occupation" />
-              <Input type="text" name="residential" label="Residential" />
-              <Input type="text" name="postalAddress" label="Postal Address" />
-              <Input type="email" name="email" label="Email" />
-              <Input type="text" name="employer" label="EMployer" />
-              <Input type="text" name="phone1" label="Mobile" />
-              <Input type="text" name="phone2" label="Fixed" />
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input type="text" name="surname" label="Surname" />
+                <Input type="text" name="dob" label="Date Of Birth" />
+                <Input type="text" name="profession" label="Occupation" />
+                <Input type="text" name="residential" label="Residential" />
+                <Input
+                  type="text"
+                  name="postalAddress"
+                  label="Postal Address"
+                />
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input type="email" name="email" label="Email" />
+                <Input type="text" name="employer" label="Employer" />
+                <Input type="text" name="phone1" label="Mobile" />
+                <Input type="text" name="phone2" label="Fixed" />
+              </div>
 
-              <p>
+              <p className="my-2">
                 In the event that the above named beneficiary is totally not
                 available is totally absent, I nominate
               </p>
-              <Input type="text" name="surname" label="Surname" />
-              <Input type="text" name="dob" label="Date Of Birth" />
-              <Input type="text" name="profession" label="Occupation" />
-              <Input type="text" name="residential" label="Residential" />
-              <Input type="text" name="postalAddress" label="Postal Address" />
-              <Input type="email" name="email" label="Email" />
-              <Input type="text" name="employer" label="EMployer" />
-              <Input type="text" name="phone1" label="Mobile" />
-              <Input type="text" name="phone2" label="Fixed" />
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input type="text" name="surname" label="Surname" />
+                <Input type="text" name="dob" label="Date Of Birth" />
+                <Input type="text" name="profession" label="Occupation" />
+                <Input type="text" name="residential" label="Residential" />
+                <Input
+                  type="text"
+                  name="postalAddress"
+                  label="Postal Address"
+                />
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input type="email" name="email" label="Email" />
+                <Input type="text" name="employer" label="Employer" />
+                <Input type="text" name="phone1" label="Mobile" />
+                <Input type="text" name="phone2" label="Fixed" />
+              </div>
+
               <h2 className="font-bold uppercase text-md my-3">
                 SAVINGS BENEFICIARIES PARTICULARS
               </h2>

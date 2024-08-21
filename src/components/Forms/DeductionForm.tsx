@@ -17,7 +17,9 @@ const DeductionForm = () => {
       employeeSignature: values.employeeSignature,
       administratorSignature: values.administratorSignature,
       hrSignature: values.hrSignature,
-      dob: values.dob,
+      edob: values.edob,
+      adob: values.adob,
+      hdob: values.hdob,
       email: user?.email,
     });
   };
@@ -88,7 +90,9 @@ const DeductionForm = () => {
             employeeSignature: formData?.employeeSignature || "",
             administratorSignature: formData?.employeeSignature || "",
             hrSignature: formData?.employeeSignature || "",
-            dob: "",
+            edob: "",
+            adob: "",
+            hdob: "",
           }}
           // validationSchema={forgotPasswordSchema}
           onSubmit={async (values) => {
@@ -100,14 +104,17 @@ const DeductionForm = () => {
               <h2 className="font-bold uppercase text-md my-3">
                 212 Staff SACCO Membership - Salary Deduction Form
               </h2>
-              <Input type="text" name="employerName" label="Employer Name" />
-              <Input type="text" name="cellPhone" label="Cell phone" />
-              <Input
-                type="text"
-                name="membershipNumber"
-                label="SACCO Membership Number"
-              />
-
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input type="text" name="employerName" label="Employer Name" />
+                <Input type="text" name="cellPhone" label="Cell phone" />
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input
+                  type="text"
+                  name="membershipNumber"
+                  label="SACCO Membership Number"
+                />
+              </div>
               <p className="my-3">
                 I hereby give the Company permission to deduct from my salary,
                 an amount equivalent to Ugx 50,000 and Ugx 30,000 being payment
@@ -121,7 +128,7 @@ const DeductionForm = () => {
                   name="employeeSignature"
                   label="Employee Signature"
                 />
-                <Input type="date" name="dob" label="Date" />
+                <Input type="date" name="edob" label="Date" />
               </div>
 
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
@@ -130,7 +137,7 @@ const DeductionForm = () => {
                   name="administratorSignature"
                   label="Approved by SACCO Administrator"
                 />
-                <Input type="date" name="dob" label="Date" />
+                <Input type="date" name="adob" label="Date" />
               </div>
 
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 mb-3">
@@ -139,7 +146,7 @@ const DeductionForm = () => {
                   name="hrSignature"
                   label="Authorized by HR Manage"
                 />
-                <Input type="date" name="dob" label="Date" />
+                <Input type="date" name="hdob" label="Date" />
               </div>
 
               <GGButton

@@ -110,28 +110,41 @@ const SavingDeductionForm = () => {
               <h2 className="font-bold uppercase text-md my-3">
                 212 Staff SACCO Membership - Salary Deduction Form
               </h2>
-              <Input type="text" name="employerName" label="Employer Name" />
-              <Input type="text" name="cellPhone" label="Cell phone" />
-              <Input
-                type="text"
-                name="membershipNumber"
-                label="SACCO Membership Number"
-              />
-              <Input
-                type="text"
-                name="deductionAmount"
-                label="Deduction Amount"
-              />
-              <p className="my-3">
-                I hereby give the Company permission to deduct from my salary, a
-                monthly amount of {""}
-                <strong>UGX{values.deductionAmount ?? 0}</strong> being payment
-                for my saving under the 212 Staff SACCO.
-              </p>
-              <Input type="date" name="agreedDate" label="Agreed Date" />
-              These deductions should take effect from{" "}
-              <strong>{values.agreedDate ?? "(dd/mm/yy)"}</strong> until such a
-              time when I inform the company otherwise
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input type="text" name="employerName" label="Employer Name" />
+                <Input type="text" name="cellPhone" label="Cell phone" />
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input
+                  type="text"
+                  name="membershipNumber"
+                  label="SACCO Membership Number"
+                />
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <Input
+                    type="text"
+                    name="deductionAmount"
+                    label="Deduction Amount"
+                  />
+                  <p className="my-3">
+                    I hereby give the Company permission to deduct from my
+                    salary, a monthly amount of {""}
+                    <strong>UGX{values.deductionAmount ?? 0}</strong> being
+                    payment for my saving under the 212 Staff SACCO.
+                  </p>
+                </div>
+                <div>
+                  <Input type="date" name="agreedDate" label="Agreed Date" />
+                  <p className="my-3">
+                    These deductions should take effect from{" "}
+                    <strong>{values.agreedDate ?? "(dd/mm/yy)"}</strong> until
+                    such a time when I inform the company otherwise
+                  </p>
+                </div>
+              </div>
+
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                 <Input
                   type="text"
