@@ -178,16 +178,17 @@ const MembershipForm = () => {
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Input type="text" name="surname" label="Surname" />
+                <Input type="text" name="otherNames" label="Other Name" />
                 <Input type="text" name="dob" label="Date Of Birth" />
                 <Input type="text" name="profession" label="Occupation" />
                 <Input type="text" name="residential" label="Residential" />
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Input
                   type="text"
                   name="postalAddress"
                   label="Postal Address"
                 />
-              </div>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Input type="email" name="email" label="Email" />
                 <Input type="text" name="employer" label="Employer" />
                 <Input type="text" name="phone1" label="Mobile" />
@@ -200,9 +201,12 @@ const MembershipForm = () => {
               <p>
                 (Limited to Spouse, Biological Children and Biological Parents)
               </p>
-              <div className="grid gap-3 grid-col-1 sm:grid-cols-4">
-                <Input type="text" name="name" label="Name" />
-                <Input type="text" name="Relationship" label="Name" />
+              <div className="grid gap-3 grid-col-1 sm:grid-cols-2">
+                <Input type="text" name="fname" label="First Name" />
+                <Input type="text" name="lname" label="Last Name" />
+              </div>
+              <div className="grid gap-3 grid-col-1 sm:grid-cols-2">
+                <Input type="text" name="relationship" label="Relationship" />
                 <Input type="text" name="Age" label="Age" />
                 <Input type="date" name="dob" label="Date Of Birth" />
               </div>

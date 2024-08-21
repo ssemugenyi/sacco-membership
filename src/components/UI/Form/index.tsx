@@ -19,7 +19,7 @@ const Form = ({ title, description, children, onSubmit }: FormProps) => {
         <img src={Logo} alt="212 logo" className="w-32 h-32" />
       </div>
       <div className="text-center mb-4">
-        <h1 className="font-poppins font-bold text-2xl text-textColor capitalize mb-2">
+        <h1 className="font-poppins font-bold text-md text-textColor capitalize mb-2">
           {title}
         </h1>
         <p className="font-poppins font-medium text-sm">{description}</p>
