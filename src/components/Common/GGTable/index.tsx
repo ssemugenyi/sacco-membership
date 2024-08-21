@@ -410,7 +410,7 @@ function GGTable({
                 value={searchTerm}
                 onChange={handleSearch}
                 placeholder={searchInputPlaceholder ?? "Search..."}
-                className="w-full p-2 border border-[#E2E1E1] rounded-md focus:outline-none focus:border-[#971B3F] focus:ring-[#971B3F] gg__search_input"
+                className="w-full p-2 border border-[#E2E1E1] rounded-md focus:outline-none focus:border-primary focus:ring-primary gg__search_input"
               />
             </div>
 
@@ -534,7 +534,7 @@ function GGTable({
                   return (
                     <tr
                       {...row.getRowProps()}
-                      className="group even:bg-[#fceff3] hover:bg-tableHover transition-all duration-300 hover:text-white hover:cursor-pointer"
+                      className="group even:bg-[#fdc427]/50 hover:bg-tableHover transition-all duration-300 hover:text-gray-800 hover:cursor-pointer"
                     >
                       {row.cells.map(
                         (cell: {
