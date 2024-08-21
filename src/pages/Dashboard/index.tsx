@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { MdOutlinePowerSettingsNew } from "react-icons/md";
+import { auth } from "../../store/firebase";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -21,6 +22,10 @@ const Dashboard = () => {
       to: "saving-deduction",
     },
   ];
+  const user = auth?.currentUser;
+
+  console.log("Logged in user", user);
+
   return (
     <div className="flex ">
       <div className="w-[150px] bg-primary h-screen pt-16 p-4 fixed left-0 z-10">
@@ -44,7 +49,7 @@ const Dashboard = () => {
       </div>
       <div className="ml-[150px]">
         <div className="bg-white shadow-md h-16 w-full pl-[170px] p-4 fixed top-0 left-0 flex justify-between">
-          <h4 className="text-primary"> Hi Brian</h4>
+          <h4 className="text-primary">Hi {user?.email}</h4>
           <button
             className="text-primary font-semibold flex gap-1 items-center hover:bg-primary/10 p-3"
             onClick={handleLogout}

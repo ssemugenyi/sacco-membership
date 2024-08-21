@@ -20,12 +20,8 @@ const LoginForm = () => {
 
   const handleLogin = async (values: any) => {
     try {
-      const res = await signInWithEmailAndPassword(
-        auth,
-        values.email,
-        values.password
-      );
-      console.log(res);
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+
       // const userCredential = await loginUser({
       //   email: values.email,
       //   password: values.password,
@@ -42,7 +38,7 @@ const LoginForm = () => {
       //     user: userCredential?.user,
       //   }),
       // );
-      navigate("../verify-phone");
+      navigate("../dashboard");
     } catch (error: any) {
       // if (error?.data?.status === "fail") {
       //   toast.error(
