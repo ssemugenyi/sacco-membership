@@ -19,6 +19,8 @@ const SavingDeductionForm = () => {
       hrSignature: values.hrSignature,
       dob: values.dob,
       email: user?.email,
+      deductionAmount: values.deductionAmount,
+      agreedDate: values.agreedDate,
     });
   };
   useEffect(() => {
@@ -58,6 +60,14 @@ const SavingDeductionForm = () => {
                 accessor: "membershipNumber",
               },
               {
+                Header: "Deuction Amount",
+                accessor: "deductionAmount",
+              },
+              {
+                Header: "Agreed Date",
+                accessor: "agreedDate",
+              },
+              {
                 Header: "Employee Signature",
                 accessor: "employeeSignature",
               },
@@ -87,13 +97,15 @@ const SavingDeductionForm = () => {
             administratorSignature: formData?.employeeSignature || "",
             hrSignature: formData?.employeeSignature || "",
             dob: "",
+            deductionAmount: formData?.deductionAmount || "",
+            agreedDate: formData?.agreedDate || "",
           }}
           // validationSchema={forgotPasswordSchema}
           onSubmit={async (values) => {
             await handleSubmitHandler(values);
           }}
         >
-          {({ handleSubmit, dirty, isValid }) => (
+          {({ handleSubmit, dirty, isValid, values }) => (
             <form className="p-8 rounded-md shadow">
               <h2 className="font-bold uppercase text-md my-3">
                 212 Staff SACCO Membership - Salary Deduction Form
@@ -105,14 +117,21 @@ const SavingDeductionForm = () => {
                 name="membershipNumber"
                 label="SACCO Membership Number"
               />
-
+              <Input
+                type="text"
+                name="deductionAmount"
+                label="Deduction Amount"
+              />
               <p className="my-3">
-                I hereby give the Company permission to deduct from my salary,
-                an amount equivalent to Ugx 50,000 and Ugx 30,000 being payment
-                for my membership and annual subscription respectively, under
-                the 212 Staff SACCO.
+                I hereby give the Company permission to deduct from my salary, a
+                monthly amount of {""}
+                <strong>UGX{values.deductionAmount ?? 0}</strong> being payment
+                for my saving under the 212 Staff SACCO.
               </p>
-
+              <Input type="date" name="agreedDate" label="Agreed Date" />
+              These deductions should take effect from{" "}
+              <strong>{values.agreedDate ?? "(dd/mm/yy)"}</strong> until such a
+              time when I inform the company otherwise
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                 <Input
                   type="text"
@@ -121,7 +140,6 @@ const SavingDeductionForm = () => {
                 />
                 <Input type="date" name="dob" label="Date" />
               </div>
-
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                 <Input
                   type="text"
@@ -130,7 +148,6 @@ const SavingDeductionForm = () => {
                 />
                 <Input type="date" name="dob" label="Date" />
               </div>
-
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 mb-3">
                 <Input
                   type="text"
@@ -139,7 +156,6 @@ const SavingDeductionForm = () => {
                 />
                 <Input type="date" name="dob" label="Date" />
               </div>
-
               <GGButton
                 type="submit"
                 onClick={handleSubmit}
