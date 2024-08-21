@@ -9,6 +9,7 @@ import Membership from "./pages/Membership";
 import Deduction from "./pages/Deduction";
 import "./App.css";
 import VerifyPhone from "./components/Forms/VerifyForm";
+import Saving from "./pages/Saving";
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
       <Route path="/dashboard/*" element={<Dashboard />}>
         <Route index element={<Navigate to="membership" replace />} />
         <Route path="subscription-deduction" element={<Deduction />} />
-        <Route path="saving-deduction" element={<Deduction />} />
+        <Route path="saving-deduction" element={<Saving />} />
         <Route path="membership" element={<Membership />} />
       </Route>
     </Routes>
