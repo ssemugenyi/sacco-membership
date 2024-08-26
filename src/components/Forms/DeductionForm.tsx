@@ -3,14 +3,15 @@ import { GGTable, Input } from "../Common";
 import { GGButton } from "../UI";
 import { Formik } from "formik";
 import { auth, db } from "../../store/firebase";
-import { onValue, push, ref } from "firebase/database";
+import { onValue, set, ref } from "firebase/database";
 
 const DeductionForm = () => {
   const [Data, setData] = useState<any>({});
   const user = auth?.currentUser;
+  const userId = user?.uid as string;
 
   const handleSubmitHandler = async (values: any) => {
-    push(ref(db, "deductions/"), {
+    set(ref(db, `deductions/${userId}`), {
       cellPhone: values.cellPhone,
       employerName: values.employerName,
       membershipNumber: values.membershipNumber,
@@ -24,17 +25,18 @@ const DeductionForm = () => {
     });
   };
   useEffect(() => {
-    const starCountRef = ref(db, "deductions/");
+    const starCountRef = ref(db, `deductions/${userId}`);
+    const membership = ref(db, `memberships/${userId}`);
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
       setData(data);
     });
+    onValue(membership, (snapshot) => {
+      const data = snapshot.val();
+      setData({ ...data, ...membership });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const formData =
-    [...Object.values(Data)]?.find(
-      (obj: any) => (obj.email as any) === user?.email
-    ) || ({} as any);
 
   const isAdmin = user?.email === "ssemugenyiisaac2@gmail.com";
 
@@ -84,12 +86,12 @@ const DeductionForm = () => {
         <Formik
           enableReinitialize
           initialValues={{
-            cellPhone: formData?.cellPhone || "",
-            employerName: formData?.employerName || "",
-            membershipNumber: formData?.membershipNumber || "",
-            employeeSignature: formData?.employeeSignature || "",
-            administratorSignature: formData?.employeeSignature || "",
-            hrSignature: formData?.employeeSignature || "",
+            cellPhone: Data?.phone1 || "",
+            employerName: Data?.employer || "",
+            membershipNumber: Data?.membershipNumber || "",
+            employeeSignature: Data?.employer || "",
+            administratorSignature: Data?.employeeSignature || "",
+            hrSignature: Data?.employeeSignature || "",
             edob: "",
             adob: "",
             hdob: "",
