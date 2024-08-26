@@ -35,7 +35,7 @@ function App() {
       });
       // logs out user
       logoutAction();
-    }, 1800000); // 10000ms = 10secs. You can change the time.
+    }, 300000); // 10000ms = 10secs. You can change the time.
   };
 
   // this resets the timer if it exists.

@@ -200,11 +200,6 @@ const MembershipForm = ({ isEdit }: { isEdit?: boolean }) => {
                 />
               </div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <Input
-                  type="text"
-                  name="postalAddress"
-                  label="Postal Address"
-                />
                 <Input type="email" name="email" label="Email" />
                 <Input type="text" name="employer" label="Employer" />
                 <Input type="text" name="phone1" label="Mobile Number" />

@@ -106,7 +106,11 @@ const ImageUpload = ({
           onChange={onChangeHandler}
         />
         <div
-          className={`${hasImage ? "opacity-0 group-hover:opacity-100 group-hover:bg-white/30" : ""} p-2 flex flex-col items-center gap-2.5 rounded-sm`}
+          className={`${
+            hasImage
+              ? "opacity-0 group-hover:opacity-100 group-hover:bg-white/30"
+              : ""
+          } p-2 flex flex-col items-center gap-2.5 rounded-sm`}
         >
           <FaRegImage className="text-[20px] text-[#AEAEAE]" />
           <p className="font-bold font-poppins text-sm text-primary">
