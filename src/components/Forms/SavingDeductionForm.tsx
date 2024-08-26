@@ -19,6 +19,7 @@ const SavingDeductionForm = ({ isEdit }: { isEdit?: boolean }) => {
   const handleSubmitHandler = async (values: any) => {
     set(ref(db, `savings/${userId}`), {
       id: id ? id : userId,
+      name: values.name,
       cellPhone: values.cellPhone,
       employerName: values.employerName,
       membershipNumber: values.membershipNumber,
@@ -64,6 +65,10 @@ const SavingDeductionForm = ({ isEdit }: { isEdit?: boolean }) => {
             data={([...Object.values(Data)] as any) || []}
             columns={[
               {
+                Header: "Employee Name",
+                accessor: "name",
+              },
+              {
                 Header: "Cell Phone",
                 accessor: "cellPhone",
               },
@@ -106,6 +111,7 @@ const SavingDeductionForm = ({ isEdit }: { isEdit?: boolean }) => {
         <Formik
           enableReinitialize
           initialValues={{
+            name: membership?.surname || "",
             cellPhone: membership?.phone1 || "",
             employerName: membership?.employer || "",
             membershipNumber: Data?.membershipNumber || "",
@@ -128,10 +134,11 @@ const SavingDeductionForm = ({ isEdit }: { isEdit?: boolean }) => {
                 212 Staff SACCO Membership - Salary Deduction Form
               </h2>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <Input type="text" name="employerName" label="Employer Name" />
+                <Input type="text" name="name" label="Employee Name" />
                 <Input type="text" name="cellPhone" label="Cell phone" />
               </div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input type="text" name="employerName" label="Employer Name" />
                 <Input
                   type="text"
                   name="membershipNumber"

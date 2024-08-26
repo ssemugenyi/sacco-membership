@@ -26,7 +26,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex ">
-      <div className="w-[150px] bg-primary h-screen pt-16 p-4 fixed left-0 z-10">
+      <div className="w-[200px] bg-primary h-screen pt-16 p-4 fixed left-0 z-10">
         <nav>
           <ul>
             {NAV_LINKS.map((link) => (
@@ -34,7 +34,7 @@ const Dashboard = () => {
                 <NavLink
                   to={link.to}
                   className={({ isActive }) =>
-                    " w-full rounded-3xl px-6 py-2 my-1 font-poppins font-semibold flex justify-between items-center hover:bg-white hover:text-primary transition-all duration-300 text-sm no-underline capitalize  " +
+                    " w-full rounded-3xl px-2 py-2 my-1 font-poppins font-semibold flex justify-between items-center hover:bg-white hover:text-primary transition-all duration-300 text-sm no-underline capitalize  " +
                     (isActive ? "bg-white text-primary" : "text-white ")
                   }
                 >
@@ -45,8 +45,8 @@ const Dashboard = () => {
           </ul>
         </nav>
       </div>
-      <div className="ml-[150px] flex-1">
-        <div className="bg-white shadow-md h-16 w-full pl-[170px] p-4 fixed top-0 left-0 flex justify-between">
+      <div className="ml-[200px] flex-1">
+        <div className="bg-white shadow-md h-16 w-full pl-[220px] p-4 fixed top-0 left-0 flex justify-between">
           <h4 className="text-primary">Hi {user?.email}</h4>
           <button
             className="text-primary font-semibold flex gap-1 items-center hover:bg-primary/10 p-3"
