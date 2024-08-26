@@ -3,14 +3,17 @@ import { GGTable, Input } from "../Common";
 import { GGButton } from "../UI";
 import { Formik } from "formik";
 import { auth, db } from "../../store/firebase";
-import { onValue, push, ref } from "firebase/database";
+import { onValue, ref, set } from "firebase/database";
 
 const SavingDeductionForm = () => {
   const [Data, setData] = useState<any>({});
   const user = auth?.currentUser;
+  const userId = user?.uid as string;
+
+  const isAdmin = user?.email === "ssemugenyiisaac2@gmail.com";
 
   const handleSubmitHandler = async (values: any) => {
-    push(ref(db, "savings/"), {
+    set(ref(db, `savings/${userId}`), {
       cellPhone: values.cellPhone,
       employerName: values.employerName,
       membershipNumber: values.membershipNumber,
@@ -24,19 +27,15 @@ const SavingDeductionForm = () => {
     });
   };
   useEffect(() => {
-    const starCountRef = ref(db, "savings/");
+    const starCountRef = ref(db, `savings/${isAdmin ? "" : userId}`);
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
       setData(data);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const formData =
-    [...Object.values(Data)]?.find(
-      (obj: any) => (obj.email as any) === user?.email
-    ) || ({} as any);
-
-  const isAdmin = user?.email === "ssemugenyiisaac2@gmail.com";
+  console.log("Data", Data);
 
   return (
     <div>
@@ -90,15 +89,15 @@ const SavingDeductionForm = () => {
         <Formik
           enableReinitialize
           initialValues={{
-            cellPhone: formData?.cellPhone || "",
-            employerName: formData?.employerName || "",
-            membershipNumber: formData?.membershipNumber || "",
-            employeeSignature: formData?.employeeSignature || "",
-            administratorSignature: formData?.employeeSignature || "",
-            hrSignature: formData?.employeeSignature || "",
+            cellPhone: Data?.cellPhone || "",
+            employerName: Data?.employerName || "",
+            membershipNumber: Data?.membershipNumber || "",
+            employeeSignature: Data?.employeeSignature || "",
+            administratorSignature: Data?.employeeSignature || "",
+            hrSignature: Data?.employeeSignature || "",
             dob: "",
-            deductionAmount: formData?.deductionAmount || "",
-            agreedDate: formData?.agreedDate || "",
+            deductionAmount: Data?.deductionAmount || "",
+            agreedDate: Data?.agreedDate || "",
           }}
           // validationSchema={forgotPasswordSchema}
           onSubmit={async (values) => {

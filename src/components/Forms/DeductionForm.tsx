@@ -7,8 +7,11 @@ import { onValue, set, ref } from "firebase/database";
 
 const DeductionForm = () => {
   const [Data, setData] = useState<any>({});
+  const [membership, setMembership] = useState<any>({});
   const user = auth?.currentUser;
   const userId = user?.uid as string;
+
+  const isAdmin = user?.email === "ssemugenyiisaac2@gmail.com";
 
   const handleSubmitHandler = async (values: any) => {
     set(ref(db, `deductions/${userId}`), {
@@ -25,20 +28,24 @@ const DeductionForm = () => {
     });
   };
   useEffect(() => {
-    const starCountRef = ref(db, `deductions/${userId}`);
-    const membership = ref(db, `memberships/${userId}`);
+    const starCountRef = ref(db, `deductions/${isAdmin ? "" : userId}`);
+
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
       setData(data);
     });
-    onValue(membership, (snapshot) => {
-      const data = snapshot.val();
-      setData({ ...data, ...membership });
-    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isAdmin = user?.email === "ssemugenyiisaac2@gmail.com";
+  useEffect(() => {
+    const membership = ref(db, `memberships/${userId}`);
+    onValue(membership, (snapshot) => {
+      const data = snapshot.val();
+      setMembership(data);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   console.log("Data", Data);
 
@@ -87,9 +94,9 @@ const DeductionForm = () => {
           enableReinitialize
           initialValues={{
             cellPhone: Data?.phone1 || "",
-            employerName: Data?.employer || "",
+            employerName: membership?.employer || "",
             membershipNumber: Data?.membershipNumber || "",
-            employeeSignature: Data?.employer || "",
+            employeeSignature: membership?.employer || "",
             administratorSignature: Data?.employeeSignature || "",
             hrSignature: Data?.employeeSignature || "",
             edob: "",
