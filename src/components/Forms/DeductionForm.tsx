@@ -47,7 +47,7 @@ const DeductionForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("Data", Data);
+  console.log("Data", Data, membership);
 
   return (
     <div>
@@ -93,7 +93,7 @@ const DeductionForm = () => {
         <Formik
           enableReinitialize
           initialValues={{
-            cellPhone: Data?.phone1 || "",
+            cellPhone: membership?.phone1 || "",
             employerName: membership?.employer || "",
             membershipNumber: Data?.membershipNumber || "",
             employeeSignature: membership?.employer || "",

@@ -1,10 +1,10 @@
 import React from "react";
 import SavingDeductionForm from "../../components/Forms/SavingDeductionForm";
 
-const Saving = () => {
+const Saving = ({ isEdit }: { isEdit?: boolean }) => {
   return (
     <div>
-      <SavingDeductionForm />
+      <SavingDeductionForm isEdit={isEdit} />
     </div>
   );
 };

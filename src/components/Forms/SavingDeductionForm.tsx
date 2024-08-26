@@ -4,9 +4,13 @@ import { GGButton } from "../UI";
 import { Formik } from "formik";
 import { auth, db } from "../../store/firebase";
 import { onValue, ref, set } from "firebase/database";
+import { useNavigate, useParams } from "react-router-dom";
 
-const SavingDeductionForm = () => {
+const SavingDeductionForm = ({ isEdit }: { isEdit?: boolean }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [Data, setData] = useState<any>({});
+  const [membership, setMembership] = useState<any>({});
   const user = auth?.currentUser;
   const userId = user?.uid as string;
 
@@ -14,6 +18,7 @@ const SavingDeductionForm = () => {
 
   const handleSubmitHandler = async (values: any) => {
     set(ref(db, `savings/${userId}`), {
+      id: id ? id : userId,
       cellPhone: values.cellPhone,
       employerName: values.employerName,
       membershipNumber: values.membershipNumber,
@@ -27,23 +32,35 @@ const SavingDeductionForm = () => {
     });
   };
   useEffect(() => {
-    const starCountRef = ref(db, `savings/${isAdmin ? "" : userId}`);
+    const starCountRef = ref(
+      db,
+      `savings/${isAdmin ? (id ? id : "") : userId}`
+    );
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
       setData(data);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
-  console.log("Data", Data);
+  useEffect(() => {
+    const membership = ref(db, `memberships/${isAdmin ? id : userId}`);
+    onValue(membership, (snapshot) => {
+      const data = snapshot.val();
+      setMembership(data);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return (
     <div>
-      {isAdmin ? (
+      {isAdmin && !isEdit ? (
         <div>
           <GGTable
             showExportButton
-            onEditHandler={() => {}}
+            onViewHandler={(data) => {
+              navigate(`${data.id}`);
+            }}
             data={([...Object.values(Data)] as any) || []}
             columns={[
               {
@@ -89,19 +106,20 @@ const SavingDeductionForm = () => {
         <Formik
           enableReinitialize
           initialValues={{
-            cellPhone: Data?.cellPhone || "",
-            employerName: Data?.employerName || "",
+            cellPhone: membership?.phone1 || "",
+            employerName: membership?.employer || "",
             membershipNumber: Data?.membershipNumber || "",
-            employeeSignature: Data?.employeeSignature || "",
+            employeeSignature: membership?.employer || "",
             administratorSignature: Data?.employeeSignature || "",
             hrSignature: Data?.employeeSignature || "",
-            dob: "",
+            dob: Data?.dob || "",
             deductionAmount: Data?.deductionAmount || "",
             agreedDate: Data?.agreedDate || "",
           }}
           // validationSchema={forgotPasswordSchema}
           onSubmit={async (values) => {
             await handleSubmitHandler(values);
+            isEdit && navigate("../saving-deduction");
           }}
         >
           {({ handleSubmit, dirty, isValid, values }) => (
@@ -164,7 +182,7 @@ const SavingDeductionForm = () => {
                 <Input
                   type="text"
                   name="hrSignature"
-                  label="Authorized by HR Manage"
+                  label="Authorized by HR Manager"
                 />
                 <Input type="date" name="dob" label="Date" />
               </div>
@@ -174,7 +192,7 @@ const SavingDeductionForm = () => {
                 disable={!dirty || !isValid}
                 width="100%"
               >
-                Submit
+                {isEdit ? "Update" : "Submit"}
               </GGButton>
             </form>
           )}

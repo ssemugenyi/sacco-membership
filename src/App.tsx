@@ -74,6 +74,7 @@ function App() {
         <Route index element={<Navigate to="membership" replace />} />
         <Route path="subscription-deduction" element={<Deduction />} />
         <Route path="saving-deduction" element={<Saving />} />
+        <Route path="saving-deduction/:id" element={<Saving isEdit />} />
         <Route path="membership" element={<Membership />} />
         <Route path="membership/:id" element={<Membership isEdit />} />
       </Route>
