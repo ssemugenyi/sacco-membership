@@ -35,7 +35,7 @@ function App() {
       });
       // logs out user
       logoutAction();
-    }, 60000); // 10000ms = 10secs. You can change the time.
+    }, 1800000); // 10000ms = 10secs. You can change the time.
   };
 
   // this resets the timer if it exists.
@@ -56,7 +56,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // logs out user by clearing out auth token in localStorage and redirecting url to /signin page.
+  // logs out user by clearing out auth token in localStorage and redirecting url to login page.
   const logoutAction = () => {
     navigate("/login");
   };
@@ -75,6 +75,7 @@ function App() {
         <Route path="subscription-deduction" element={<Deduction />} />
         <Route path="saving-deduction" element={<Saving />} />
         <Route path="membership" element={<Membership />} />
+        <Route path="membership/:id" element={<Membership isEdit />} />
       </Route>
     </Routes>
   );

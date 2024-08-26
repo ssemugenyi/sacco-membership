@@ -3,13 +3,20 @@ import { GGButton } from "../UI";
 import { GGTable, Input } from "../Common";
 
 import { Formik } from "formik";
-import { onValue, push, ref } from "firebase/database";
+import { onValue, set, ref } from "firebase/database";
 import { auth, db } from "../../store/firebase";
+import { useNavigate, useParams } from "react-router-dom";
+import { SlClose } from "react-icons/sl";
 
-const MembershipForm = () => {
+const MembershipForm = ({ isEdit }: { isEdit?: boolean }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const user = auth?.currentUser;
+  const userId = user?.uid as string;
   const [Data, setData] = useState<any>({});
   const handleSubmitHandler = async (values: any) => {
-    push(ref(db, "membership/"), {
+    const data = {
+      id: id ? id : userId,
       surname: values.surname,
       otherNames: values.otherNames,
       dob: values.dob,
@@ -20,32 +27,60 @@ const MembershipForm = () => {
       employer: values.employer,
       phone1: values.phone1,
       phone2: values.phone2,
-    });
+      bsurname: values.bsurname,
+      bothername: values.bothername,
+      bdob: values.bdob,
+      bprofession: values.bprofession,
+      bresidential: values.bresidential,
+      bpostalAddress: values.bpostalAddress,
+      bemail: values.bemail,
+      bemployer: values.bemployer,
+      bphone1: values.bphone1,
+      bphone2: values.bphone2,
+      b2surname: values.b2surname,
+      b2otherNames: values.b2otherNames,
+      b2dob: values.b2dob,
+      b2profession: values.b2profession,
+      b2residential: values.b2residential,
+      b2postalAddress: values.b2postalAddress,
+      b2email: values.b2email,
+      b2employer: values.b2employer,
+      b2phone1: values.b2phone1,
+      b2phone2: values.b2phone2,
+
+      beneficiaries: ["test", "test2"],
+      approved: values.approved,
+      declinedReason: values.declinedReason,
+    };
+
+    const dataToBeSent = data;
+
+    set(ref(db, `memberships/${id ? id : userId}`), dataToBeSent);
   };
 
+  const isAdmin = user?.email === "ssemugenyiisaac2@gmail.com";
   useEffect(() => {
-    const starCountRef = ref(db, "membership/");
+    const starCountRef = ref(
+      db,
+      `memberships/${isAdmin ? (id ? id : "") : userId}`
+    );
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
       setData(data);
     });
-  }, []);
-
-  const user = auth?.currentUser;
-  const formData =
-    [...Object.values(Data)]?.find(
-      (obj: any) => (obj.email as any) === user?.email
-    ) || ({} as any);
-
-  const isAdmin = user?.email === "ssemugenyiisaac2@gmail.com";
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return (
     <div>
-      {isAdmin ? (
+      {isAdmin && !isEdit ? (
         <div>
           <GGTable
             showExportButton
-            onEditHandler={() => {}}
+            onViewHandler={(data) => {
+              console.log(data);
+              navigate(`${data.id}`);
+            }}
             data={([...Object.values(Data)] as any) || []}
             columns={[
               {
@@ -95,27 +130,60 @@ const MembershipForm = () => {
         <Formik
           enableReinitialize
           initialValues={{
-            surname: formData?.surname || "",
-            otherNames: formData?.otherNames || "",
-            dob: formData?.dob || "",
-            profession: formData?.profession || "",
-            residential: formData?.residential || "",
-            postalAddress: formData?.postalAddress || "",
-            email: formData?.email || "",
-            employer: formData?.employer || "",
-            phone1: formData?.phone1 || "",
-            phone2: formData?.phone2 || "",
+            surname: Data?.surname || "",
+            otherNames: Data?.otherNames || "",
+            dob: Data?.dob || "",
+            profession: Data?.profession || "",
+            residential: Data?.residential || "",
+            postalAddress: Data?.postalAddress || "",
+            email: Data?.email || "",
+            employer: Data?.employer || "",
+            phone1: Data?.phone1 || "",
+            phone2: Data?.phone2 || "",
+            bsurname: Data?.bsurname || "",
+            bothername: Data?.bothername || "",
+            bdob: Data?.bdob || "",
+            bprofession: Data?.bprofession || "",
+            bresidential: Data?.bresidential || "",
+            bpostalAddress: Data?.bpostalAddress || "",
+            bemail: Data?.bemail || "",
+            bemployer: Data?.bemployer || "",
+            bphone1: Data?.bphone1 || "",
+            bphone2: Data?.bphone2 || "",
+            b2surname: Data?.b2surname || "",
+            b2otherNames: Data?.b2otherNames || "",
+            b2dob: Data?.b2dob || "",
+            b2profession: Data?.b2profession || "",
+            b2residential: Data?.b2residential || "",
+            b2postalAddress: Data?.b2postalAddress || "",
+            b2email: Data?.b2email || "",
+            b2employer: Data?.b2employer || "",
+            b2phone1: Data?.b2phone1 || "",
+            b2phone2: Data?.b2phone2 || "",
+
+            approved: Data?.approved || "",
+            declinedReason: Data?.declinedReason || "",
           }}
           // validationSchema={forgotPasswordSchema}
           onSubmit={async (values) => {
             await handleSubmitHandler(values);
+            isEdit && navigate("../membership");
           }}
         >
-          {({ handleSubmit, dirty, isValid }) => (
+          {({ handleSubmit, dirty, isValid, values }) => (
             <form className="p-8 rounded-md shadow">
               <h2 className="font-bold uppercase text-md my-3">
                 212 STAFF SACCO MEMBERSHIP REGISTRATION FORM
               </h2>
+
+              {!isAdmin &&
+                values.declinedReason &&
+                values.approved !== "yes" && (
+                  <p className="flex items-center gap-4 rounded-md bg-red-300 p-5">
+                    <SlClose className="w-6 h-6" />
+                    {values.declinedReason}
+                  </p>
+                )}
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Input type="text" name="surname" label="Surname" />
@@ -137,8 +205,8 @@ const MembershipForm = () => {
                 />
                 <Input type="email" name="email" label="Email" />
                 <Input type="text" name="employer" label="Employer" />
-                <Input type="text" name="phone1" label="Mobile" />
-                <Input type="text" name="phone2" label="Fixed" />
+                <Input type="text" name="phone1" label="Mobile Number" />
+                <Input type="text" name="phone2" label="Fixed Number" />
               </div>
 
               <h2 className="font-bold uppercase text-md my-3">
@@ -155,21 +223,22 @@ const MembershipForm = () => {
               </p>
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <Input type="text" name="surname" label="Surname" />
-                <Input type="text" name="dob" label="Date Of Birth" />
-                <Input type="text" name="profession" label="Occupation" />
-                <Input type="text" name="residential" label="Residential" />
+                <Input type="text" name="bsurname" label="Surname" />
+                <Input type="text" name="bothername" label="Other Names" />
+                <Input type="date" name="bdob" label="Date Of Birth" />
+                <Input type="text" name="bprofession" label="Occupation" />
+                <Input type="text" name="bresidential" label="Residential" />
                 <Input
                   type="text"
-                  name="postalAddress"
+                  name="bpostalAddress"
                   label="Postal Address"
                 />
               </div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <Input type="email" name="email" label="Email" />
-                <Input type="text" name="employer" label="Employer" />
-                <Input type="text" name="phone1" label="Mobile" />
-                <Input type="text" name="phone2" label="Fixed" />
+                <Input type="email" name="bemail" label="Email" />
+                <Input type="text" name="bemployer" label="Employer" />
+                <Input type="text" name="bphone1" label="Mobile Number" />
+                <Input type="text" name="bphone2" label="Fixed Number" />
               </div>
 
               <p className="my-2">
@@ -177,22 +246,22 @@ const MembershipForm = () => {
                 available is totally absent, I nominate
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <Input type="text" name="surname" label="Surname" />
-                <Input type="text" name="otherNames" label="Other Name" />
-                <Input type="text" name="dob" label="Date Of Birth" />
-                <Input type="text" name="profession" label="Occupation" />
-                <Input type="text" name="residential" label="Residential" />
-              </div>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input type="text" name="b2surname" label="Surname" />
+                <Input type="text" name="b2otherNames" label="Other Name" />
+                <Input type="date" name="b2dob" label="Date Of Birth" />
+                <Input type="text" name="b2profession" label="Occupation" />
+                <Input type="text" name="b2residential" label="Residential" />
                 <Input
                   type="text"
-                  name="postalAddress"
+                  name="b2postalAddress"
                   label="Postal Address"
                 />
-                <Input type="email" name="email" label="Email" />
-                <Input type="text" name="employer" label="Employer" />
-                <Input type="text" name="phone1" label="Mobile" />
-                <Input type="text" name="phone2" label="Fixed" />
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input type="email" name="b2email" label="Email" />
+                <Input type="text" name="b2employer" label="Employer" />
+                <Input type="text" name="b2phone1" label="Mobile Number" />
+                <Input type="text" name="b2phone2" label="Fixed Number" />
               </div>
 
               <h2 className="font-bold uppercase text-md my-3">
@@ -201,22 +270,39 @@ const MembershipForm = () => {
               <p>
                 (Limited to Spouse, Biological Children and Biological Parents)
               </p>
-              <div className="grid gap-3 grid-col-1 sm:grid-cols-2">
-                <Input type="text" name="fname" label="First Name" />
-                <Input type="text" name="lname" label="Last Name" />
-              </div>
-              <div className="grid gap-3 grid-col-1 sm:grid-cols-2">
+              <div className="grid gap-3 grid-col-1 sm:grid-cols-4">
+                <Input type="text" name="fname" label="Full Name" />
                 <Input type="text" name="relationship" label="Relationship" />
                 <Input type="text" name="Age" label="Age" />
                 <Input type="date" name="dob" label="Date Of Birth" />
               </div>
+              {isAdmin && (
+                <div className="grid gap-3 grid-col-1 sm:grid-cols-2">
+                  <Input
+                    type="select"
+                    name="approved"
+                    label="Approval Status"
+                    options={[
+                      { label: "Yes", value: "yes" },
+                      { label: "No", value: "no" },
+                    ]}
+                  />
+                  {values.approved === "no" && (
+                    <Input
+                      type="textarea"
+                      name="declinedReason"
+                      label="Declined Reason"
+                    />
+                  )}
+                </div>
+              )}
               <GGButton
                 type="submit"
                 onClick={handleSubmit}
                 disable={!dirty || !isValid}
                 width="100%"
               >
-                Submit
+                {isEdit ? "Update" : "Submit"}
               </GGButton>
             </form>
           )}

@@ -24,8 +24,6 @@ const Dashboard = () => {
   ];
   const user = auth?.currentUser;
 
-  console.log("Logged in user", user);
-
   return (
     <div className="flex ">
       <div className="w-[150px] bg-primary h-screen pt-16 p-4 fixed left-0 z-10">

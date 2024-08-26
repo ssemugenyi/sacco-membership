@@ -1,10 +1,10 @@
 import React from "react";
 import MembershipForm from "../../components/Forms/MembershipForm";
 
-const Membership = () => {
+const Membership = ({ isEdit }: { isEdit?: boolean }) => {
   return (
     <div>
-      <MembershipForm />
+      <MembershipForm isEdit={isEdit} />
     </div>
   );
 };
