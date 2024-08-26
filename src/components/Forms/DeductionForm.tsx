@@ -4,8 +4,11 @@ import { GGButton } from "../UI";
 import { Formik } from "formik";
 import { auth, db } from "../../store/firebase";
 import { onValue, set, ref } from "firebase/database";
+import { useNavigate, useParams } from "react-router-dom";
 
-const DeductionForm = () => {
+const DeductionForm = ({ isEdit }: { isEdit?: boolean }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [Data, setData] = useState<any>({});
   const [membership, setMembership] = useState<any>({});
   const user = auth?.currentUser;
@@ -15,6 +18,7 @@ const DeductionForm = () => {
 
   const handleSubmitHandler = async (values: any) => {
     set(ref(db, `deductions/${userId}`), {
+      id: id ? id : userId,
       cellPhone: values.cellPhone,
       employerName: values.employerName,
       membershipNumber: values.membershipNumber,
@@ -28,7 +32,10 @@ const DeductionForm = () => {
     });
   };
   useEffect(() => {
-    const starCountRef = ref(db, `deductions/${isAdmin ? "" : userId}`);
+    const starCountRef = ref(
+      db,
+      `deductions/${isAdmin ? (id ? id : "") : userId}`
+    );
 
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
@@ -36,26 +43,26 @@ const DeductionForm = () => {
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
   useEffect(() => {
-    const membership = ref(db, `memberships/${userId}`);
+    const membership = ref(db, `memberships/${isAdmin ? id : userId}`);
     onValue(membership, (snapshot) => {
       const data = snapshot.val();
       setMembership(data);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  console.log("Data", Data, membership);
+  }, [id]);
 
   return (
     <div>
-      {isAdmin ? (
+      {isAdmin && !isEdit ? (
         <div>
           <GGTable
             showExportButton
-            onEditHandler={() => {}}
+            onViewHandler={(data) => {
+              navigate(`${data.id}`);
+            }}
             data={([...Object.values(Data)] as any) || []}
             columns={[
               {
@@ -106,6 +113,7 @@ const DeductionForm = () => {
           // validationSchema={forgotPasswordSchema}
           onSubmit={async (values) => {
             await handleSubmitHandler(values);
+            isEdit && navigate("../subscription-deduction");
           }}
         >
           {({ handleSubmit, dirty, isValid }) => (
@@ -164,7 +172,7 @@ const DeductionForm = () => {
                 disable={!dirty || !isValid}
                 width="100%"
               >
-                Submit
+                {isEdit ? "Update" : "Submit"}
               </GGButton>
             </form>
           )}

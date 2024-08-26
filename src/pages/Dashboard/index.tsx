@@ -45,7 +45,7 @@ const Dashboard = () => {
           </ul>
         </nav>
       </div>
-      <div className="ml-[150px]">
+      <div className="ml-[150px] flex-1">
         <div className="bg-white shadow-md h-16 w-full pl-[170px] p-4 fixed top-0 left-0 flex justify-between">
           <h4 className="text-primary">Hi {user?.email}</h4>
           <button

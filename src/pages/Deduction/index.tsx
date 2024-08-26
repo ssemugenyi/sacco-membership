@@ -1,10 +1,10 @@
 import React from "react";
 import DeductionForm from "../../components/Forms/DeductionForm";
 
-const Deduction = () => {
+const Deduction = ({ isEdit }: { isEdit?: boolean }) => {
   return (
     <div>
-      <DeductionForm />
+      <DeductionForm isEdit={isEdit} />
     </div>
   );
 };
