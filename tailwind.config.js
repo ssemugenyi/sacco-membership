@@ -2,6 +2,7 @@
 module.exports = {
   content: ["./src/**/*.{html,js,tsx,jsx}"],
   theme: {
+    fontFamily: { sans: ["Nunito", "sans-serif"] },
     extend: {
       colors: {
         // primary: "#fdc427",

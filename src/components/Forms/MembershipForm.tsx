@@ -7,6 +7,7 @@ import { onValue, set, ref } from "firebase/database";
 import { auth, db } from "../../store/firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import { SlClose } from "react-icons/sl";
+import BenefeciariesForm from "./BenefeciariesForm";
 
 const MembershipForm = ({ isEdit }: { isEdit?: boolean }) => {
   const { id } = useParams();
@@ -48,7 +49,7 @@ const MembershipForm = ({ isEdit }: { isEdit?: boolean }) => {
       b2phone1: values.b2phone1,
       b2phone2: values.b2phone2,
 
-      beneficiaries: ["test", "test2"],
+      beneficiaries: values.beneficiaries,
       approved: values.approved,
       declinedReason: values.declinedReason,
     };
@@ -160,6 +161,7 @@ const MembershipForm = ({ isEdit }: { isEdit?: boolean }) => {
             b2employer: Data?.b2employer || "",
             b2phone1: Data?.b2phone1 || "",
             b2phone2: Data?.b2phone2 || "",
+            beneficiaries: Data?.beneficiaries || [],
 
             approved: Data?.approved || "",
             declinedReason: Data?.declinedReason || "",
@@ -170,7 +172,7 @@ const MembershipForm = ({ isEdit }: { isEdit?: boolean }) => {
             isEdit && navigate("../membership");
           }}
         >
-          {({ handleSubmit, dirty, isValid, values }) => (
+          {({ handleSubmit, dirty, isValid, values, setFieldValue }) => (
             <form className="p-8 rounded-md shadow">
               <h2 className="font-bold uppercase text-md my-3">
                 212 STAFF SACCO MEMBERSHIP REGISTRATION FORM
@@ -270,12 +272,10 @@ const MembershipForm = ({ isEdit }: { isEdit?: boolean }) => {
               <p>
                 (Limited to Spouse, Biological Children and Biological Parents)
               </p>
-              <div className="grid gap-3 grid-col-1 sm:grid-cols-4">
-                <Input type="text" name="fname" label="Full Name" />
-                <Input type="text" name="relationship" label="Relationship" />
-                <Input type="text" name="Age" label="Age" />
-                <Input type="date" name="dob" label="Date Of Birth" />
-              </div>
+              <BenefeciariesForm
+                setFieldValue={setFieldValue}
+                beneficiariesData={values.beneficiaries || []}
+              />
               {isAdmin && (
                 <div className="grid gap-3 grid-col-1 sm:grid-cols-2">
                   <Input
